@@ -1,0 +1,107 @@
+{
+  "install_root": "~/GitHub/AI-ML-Agents",
+  "servers": [
+    {
+      "name": "ai-context-bridge",
+      "repo": "https://github.com/WOODSEE-DIGI/ai-context-bridge.git",
+      "local_path": "~/GitHub/AI-ML-Agents/ai-context-bridge",
+      "command": "node",
+      "args": ["~/GitHub/AI-ML-Agents/ai-context-bridge/server.js"],
+      "build": ["npm install"]
+    },
+    {
+      "name": "playwright-mcp",
+      "repo": "https://github.com/WOODSEE-DIGI/playwright-mcp.git",
+      "local_path": "~/GitHub/AI-ML-Agents/playwright-mcp",
+      "command": "node",
+      "args": [
+        "~/GitHub/AI-ML-Agents/playwright-mcp/packages/playwright-mcp/cli.js",
+        "--headless",
+        "--caps=network,storage,testing,pdf,vision,devtools"
+      ],
+      "build": ["npm install"],
+      "note": "Requires Playwright browsers: npx playwright install"
+    },
+    {
+      "name": "firecrawl-mcp",
+      "repo": "https://github.com/WOODSEE-DIGI/firecrawl-mcp-server.git",
+      "local_path": "~/GitHub/AI-ML-Agents/firecrawl-mcp-server",
+      "command": "node",
+      "args": ["~/GitHub/AI-ML-Agents/firecrawl-mcp-server/dist/index.js"],
+      "build": ["npm install", "npm run build"],
+      "env": {
+        "FIRECRAWL_API_URL": "http://localhost:3002"
+      },
+      "note": "Requires local Firecrawl backend running at FIRECRAWL_API_URL"
+    },
+    {
+      "name": "webclaw-mcp",
+      "repo": "https://github.com/WOODSEE-DIGI/webclaw.git",
+      "local_path": "~/GitHub/AI-ML-Agents/webclaw",
+      "command": "~/GitHub/AI-ML-Agents/webclaw/target/release/webclaw-mcp",
+      "args": [],
+      "build": ["cargo build -p webclaw-mcp --release"],
+      "note": "Core tools run offline. Optional WEBCLAW_API_KEY enables hosted fallback."
+    },
+    {
+      "name": "crawlkit-mcp",
+      "repo": "https://github.com/WOODSEE-DIGI/crawlkit-mcp.git",
+      "local_path": "~/GitHub/AI-ML-Agents/crawlkit-mcp",
+      "command": "node",
+      "args": ["~/GitHub/AI-ML-Agents/crawlkit-mcp/server.js"],
+      "build": ["npm install"],
+      "env": {
+        "CRAWLKIT_BASE_URL": "http://localhost:8088"
+      },
+      "note": "Requires CrawlKit backend running at CRAWLKIT_BASE_URL"
+    },
+    {
+      "name": "read-website-fast",
+      "repo": "https://github.com/WOODSEE-DIGI/mcp-read-website-fast.git",
+      "local_path": "~/GitHub/AI-ML-Agents/mcp-read-website-fast",
+      "command": "node",
+      "args": ["~/GitHub/AI-ML-Agents/mcp-read-website-fast/dist/serve-restart.js"],
+      "build": ["npm install", "npm run build"]
+    },
+    {
+      "name": "whatsapp-mcp",
+      "repo": "https://github.com/WOODSEE-DIGI/whatsapp-mcp.git",
+      "local_path": "~/GitHub/AI-ML-Agents/whatsapp-mcp",
+      "command": "uv",
+      "args": [
+        "--directory",
+        "~/GitHub/AI-ML-Agents/whatsapp-mcp/whatsapp-mcp-server",
+        "run",
+        "main.py"
+      ],
+      "build": [],
+      "note": "Requires whatsapp-bridge running locally on port 8080"
+    },
+    {
+      "name": "qwen3-mcp-server",
+      "repo": "https://github.com/WOODSEE-DIGI/qwen3-mcp-server.git",
+      "local_path": "~/qwen3-mcp-server",
+      "command": "~/qwen3-mcp-server/venv/bin/python",
+      "args": ["~/qwen3-mcp-server/src/main.py"],
+      "build": ["python3 -m venv venv", "venv/bin/pip install -r requirements.txt"],
+      "note": "Requires Ollama, LM Studio, or another HTTP model endpoint on localhost"
+    },
+    {
+      "name": "swift-terminals",
+      "repo": "https://github.com/WOODSEE-DIGI/Swift-terminals.git",
+      "local_path": "~/GitHub/AI-ML-Agents/Swift-terminals",
+      "command": "node",
+      "args": ["~/GitHub/AI-ML-Agents/Swift-terminals/dist/index.js"],
+      "build": ["npm install", "npm run build"]
+    },
+    {
+      "name": "xcodebuildmcp",
+      "repo": "https://github.com/WOODSEE-DIGI/XcodeBuildMCP.git",
+      "local_path": "~/GitHub/AI-ML-Agents/XcodeBuildMCP",
+      "command": "node",
+      "args": ["~/GitHub/AI-ML-Agents/XcodeBuildMCP/build/cli.js", "mcp"],
+      "build": ["npm install", "npm run build"],
+      "note": "Requires Xcode"
+    }
+  ]
+}
