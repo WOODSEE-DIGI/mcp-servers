@@ -2,10 +2,6 @@
 
 A curated, sanitized set of MCP servers that run locally on macOS. No subscriptions required.
 
-## What is this?
-
-This repo contains a manifest (`servers.json`) and an install script (`install.py`) that clones, builds, and wires up a collection of local-first MCP servers.
-
 ## Quick install
 
 ```bash
@@ -14,33 +10,62 @@ cd ~/GitHub/AI-ML-Agents/mcp-servers
 python3 install.py
 ```
 
+This installs all MCP server wrappers **and** starts the local backends where possible.
+
 ## For OpenCode users
 
-If a friend wants OpenCode to install this for them, they can paste this prompt:
+Paste this prompt:
 
-> Clone https://github.com/WOODSEE-DIGI/mcp-servers.git and run install.py. Then load the generated MCP config from ~/.ai-context/mcp-registry/friends-mcp-config.json.
+> Clone https://github.com/WOODSEE-DIGI/mcp-servers.git and run `python3 install.py`. Then load the generated MCP config from `~/.ai-context/mcp-registry/friends-mcp-config.json`.
 
-## Included servers
+## What gets installed
 
-| Server | Purpose | Extra requirements |
+### MCP servers
+
+| Server | Purpose |
+|---|---|
+| ai-context-bridge | Cross-project context, memory, builds |
+| playwright-mcp | Browser automation |
+| firecrawl-mcp | Web scrape/search/crawl |
+| webclaw-mcp | Fast local web scraping |
+| crawlkit-mcp | CrawlKit API wrapper |
+| read-website-fast | Token-efficient page extraction |
+| whatsapp-mcp | WhatsApp integration |
+| qwen3-mcp-server | Local Qwen3/Ministral models |
+| swift-terminals | Persistent terminal sessions |
+| xcodebuildmcp | Xcode build/simulator tools |
+
+### Backends (auto-started if dependencies are present)
+
+| Backend | Requirement | What the script does |
 |---|---|---|
-| ai-context-bridge | Cross-project context, memory, builds | — |
-| playwright-mcp | Browser automation | Playwright browsers |
-| firecrawl-mcp | Web scrape/search/crawl | Local Firecrawl backend |
-| webclaw-mcp | Fast local web scraping | Rust toolchain |
-| crawlkit-mcp | CrawlKit API wrapper | CrawlKit backend |
-| read-website-fast | Token-efficient page extraction | — |
-| whatsapp-mcp | WhatsApp integration | whatsapp-bridge |
-| qwen3-mcp-server | Local Qwen3/Ministral models | Ollama or LM Studio |
-| swift-terminals | Persistent terminal sessions | — |
-| xcodebuildmcp | Xcode build/simulator tools | Xcode |
+| firecrawl-backend | Docker | Clones Firecrawl, writes `.env`, runs `docker compose up -d` |
+| crawlkit-backend | Docker | Builds CrawlKit Docker image, runs on `:8088` |
+| ollama | — | Installs Ollama, starts it, pulls `qwen3:8b` |
+| whatsapp-bridge | Go | Builds the bridge; you start it manually and scan the QR code |
+| Playwright browsers | — | `npx playwright install chromium` |
 
-## Notes
+## Manual requirements
 
-- All repos are cloned under `~/GitHub/AI-ML-Agents` by default.
-- The install script generates `~/.ai-context/mcp-registry/friends-mcp-config.json`.
-- Some servers need a backend running (Firecrawl, CrawlKit, Ollama, etc.). The install script builds the wrappers; you start the backends separately.
+The script cannot install these for you:
+
+- **Docker** — for Firecrawl and CrawlKit backends
+- **Go** — for the WhatsApp bridge
+- **Xcode** — for XcodeBuildMCP
+- **uv** — for the WhatsApp MCP Python server (`curl -LsSf https://astral.sh/uv/install.sh | sh`)
+
+If a dependency is missing, the script skips that backend and tells you.
+
+## Options
+
+```bash
+# Skip all backends
+python3 install.py --no-backends
+
+# Install only one backend
+python3 install.py --backend ollama
+```
 
 ## License
 
-Per-server licenses apply. Most are MIT or Apache-2.0. Firecrawl core is AGPL; the wrapper is MIT.
+Per-server licenses apply.
